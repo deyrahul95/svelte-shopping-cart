@@ -18,6 +18,14 @@
 			quantity: 1
 		});
 	};
+
+	const removeItemFromCart = (itemId: string) => {
+		const index = cartItems.findIndex((item) => item.id === itemId);
+
+		if (index !== -1) {
+			cartItems.splice(index, 1);
+		}
+	};
 </script>
 
 <div class="flex items-center bg-gray-300 p-4">
@@ -42,10 +50,10 @@
 						<X class="size-4" />
 					</button>
 					{#each cartItems as cartItem (cartItem.id)}
-						<CartItem {cartItem} />
+						<CartItem {cartItem} {removeItemFromCart} />
 					{/each}
 					<div class="mt-4 border-gray-200 pt-4">
-						<p class="text-lg font-semibold">Total: ${cartTotal}</p>
+						<p class="text-lg font-semibold">Total: ${cartTotal.toFixed(2)}</p>
 					</div>
 				</div>
 			</div>

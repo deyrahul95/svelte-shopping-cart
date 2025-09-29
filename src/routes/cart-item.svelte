@@ -6,9 +6,10 @@
 
 	type IProps = {
 		cartItem: ICartItem;
+		removeItemFromCart: (itemId: string) => void;
 	};
 
-	const { cartItem }: IProps = $props();
+	const { cartItem, removeItemFromCart }: IProps = $props();
 </script>
 
 <div class="flex items-center justify-between border-b border-gray-200 py-2">
@@ -27,7 +28,10 @@
 		<button class="rounded p-1 hover:bg-gray-200" aria-label="Add 1 to quantity">
 			<Plus class="size-4" />
 		</button>
-		<button class="ml-4 rounded p-1 text-red-500 hover:bg-red-100">
+		<button
+			class="ml-4 rounded p-1 text-red-500 hover:bg-red-100"
+			onclick={() => removeItemFromCart(cartItem.id)}
+		>
 			<Trash class="size-4" />
 		</button>
 	</div>
