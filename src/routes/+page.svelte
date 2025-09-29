@@ -26,6 +26,18 @@
 			cartItems.splice(index, 1);
 		}
 	};
+
+	const increaseItemQuantity = (cartItem: ICartItem) => {
+		cartItem.quantity++;
+	};
+
+	const decreaseItemQuantity = (cartItem: ICartItem) => {
+		if (cartItem.quantity > 1) {
+			cartItem.quantity--;
+		} else {
+			removeItemFromCart(cartItem.id);
+		}
+	};
 </script>
 
 <div class="flex items-center bg-gray-300 p-4">
@@ -50,7 +62,12 @@
 						<X class="size-4" />
 					</button>
 					{#each cartItems as cartItem (cartItem.id)}
-						<CartItem {cartItem} {removeItemFromCart} />
+						<CartItem
+							{cartItem}
+							{removeItemFromCart}
+							{increaseItemQuantity}
+							{decreaseItemQuantity}
+						/>
 					{/each}
 					<div class="mt-4 border-gray-200 pt-4">
 						<p class="text-lg font-semibold">Total: ${cartTotal.toFixed(2)}</p>
