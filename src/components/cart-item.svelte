@@ -15,12 +15,12 @@
 		$props();
 </script>
 
-<div class="flex items-center justify-between border-b border-gray-200 py-2">
+<div class="flex items-center justify-between border-b border-gray-300 py-2">
 	<div class="flex items-center">
 		<img src={cartItem.product.thumbnail} alt="Product" class="mr-4 size-12 rounded object-cover" />
 		<div>
 			<p class="font-medium">{cartItem.product.title}</p>
-			<p class="text-sm">${(cartItem.product.price * cartItem.quantity).toFixed(2)}</p>
+			<p class="text-sm">${cartItem.product.price.toFixed(2)} each</p>
 		</div>
 	</div>
 	<div class="flex items-center">

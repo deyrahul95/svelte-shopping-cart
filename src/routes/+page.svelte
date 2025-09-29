@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { ICartItem, Product } from '$lib/types';
-	import CartItem from './cart-item.svelte';
 	import ShoppingCart from 'phosphor-svelte/lib/ShoppingCart';
-	import X from 'phosphor-svelte/lib/X';
+	import CartModal from '../components/cart-modal.svelte';
 
 	type ICartStats = {
 		quantity: number;
@@ -12,7 +11,6 @@
 	const { data } = $props();
 	let cartOpen: boolean = $state<boolean>(false);
 	const cartItems: ICartItem[] = $state<ICartItem[]>([]);
-
 	const cartStats: ICartStats = $derived.by(() => {
 		let total: number = 0;
 		let quantity: number = 0;
@@ -55,6 +53,10 @@
 			removeItemFromCart(cartItem.id);
 		}
 	};
+
+	const closeCart = () => {
+		cartOpen = false;
+	};
 </script>
 
 <div class="flex items-center bg-gray-300 p-4">
@@ -68,29 +70,14 @@
 			<span>Cart ({cartStats.quantity})</span>
 		</button>
 		{#if cartOpen}
-			<div class="absolute top-8 right-0 z-10 mt-2 w-80 rounded-lg bg-white shadow-xl">
-				<div class="relative p-4">
-					<h2 class="mb-4 text-lg font-semibold">Your Cart</h2>
-					<button
-						class="absolute top-4 right-4 rounded-full p-1 hover:bg-gray-100"
-						aria-label="close cart"
-						onclick={() => (cartOpen = false)}
-					>
-						<X class="size-4" />
-					</button>
-					{#each cartItems as cartItem (cartItem.id)}
-						<CartItem
-							{cartItem}
-							{removeItemFromCart}
-							{increaseItemQuantity}
-							{decreaseItemQuantity}
-						/>
-					{/each}
-					<div class="mt-4 border-gray-200 pt-4">
-						<p class="text-lg font-semibold">Total: ${cartStats.total.toFixed(2)}</p>
-					</div>
-				</div>
-			</div>
+			<CartModal
+				{cartItems}
+				{cartStats}
+				{closeCart}
+				{increaseItemQuantity}
+				{decreaseItemQuantity}
+				{removeItemFromCart}
+			/>
 		{/if}
 	</div>
 </div>
