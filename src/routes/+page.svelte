@@ -1,10 +1,23 @@
 <script lang="ts">
+	import type { ICartItem, Product } from '$lib/types';
 	import CartItem from './cart-item.svelte';
 	import ShoppingCart from 'phosphor-svelte/lib/ShoppingCart';
 	import X from 'phosphor-svelte/lib/X';
 
 	let { data } = $props();
 	let cartOpen: boolean = $state<boolean>(false);
+	let cartItems: ICartItem[] = $state<ICartItem[]>([]);
+	const cartTotal: number = $derived(
+		cartItems.reduce((total, item) => (total += item.product.price * item.quantity), 0)
+	);
+
+	const addItemToCart = (product: Product) => {
+		cartItems.push({
+			id: crypto.randomUUID(),
+			product: product,
+			quantity: 1
+		});
+	};
 </script>
 
 <div class="flex items-center bg-gray-300 p-4">
@@ -15,18 +28,24 @@
 			onclick={() => (cartOpen = !cartOpen)}
 		>
 			<ShoppingCart class="mr-2 size-5" />
-			<span>Cart (2)</span>
+			<span>Cart ({cartItems.length})</span>
 		</button>
 		{#if cartOpen}
 			<div class="absolute top-8 right-0 z-10 mt-2 w-80 rounded-lg bg-white shadow-xl">
 				<div class="relative p-4">
 					<h2 class="mb-4 text-lg font-semibold">Your Cart</h2>
-					<button class="absolute top-4 right-4 rounded-full p-1 hover:bg-gray-100">
-						<X class="size-4" aria-label="close" onclick={() => (cartOpen = false)} />
+					<button
+						class="absolute top-4 right-4 rounded-full p-1 hover:bg-gray-100"
+						aria-label="close cart"
+						onclick={() => (cartOpen = false)}
+					>
+						<X class="size-4" />
 					</button>
-					<CartItem />
+					{#each cartItems as cartItem (cartItem.id)}
+						<CartItem {cartItem} />
+					{/each}
 					<div class="mt-4 border-gray-200 pt-4">
-						<p class="text-lg font-semibold">Total: $39.98</p>
+						<p class="text-lg font-semibold">Total: ${cartTotal}</p>
 					</div>
 				</div>
 			</div>
@@ -35,7 +54,7 @@
 </div>
 
 <div class="grid grid-cols-1 gap-6 bg-gray-100 p-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-	{#each data.products as product}
+	{#each data.products as product (product.id)}
 		<div class="overflow-hidden rounded-xl bg-white shadow-lg">
 			<img src={product.thumbnail} alt={product.title} class="h-48 w-full object-cover" />
 			<div class="p-4">
@@ -46,6 +65,7 @@
 					<p class="text-xl font-bold">${product.price}</p>
 					<button
 						class="rounded-full bg-sky-600 px-4 py-2 text-white transition-colors duration-300 hover:bg-sky-700"
+						onclick={() => addItemToCart(product)}
 					>
 						Add to cart
 					</button>
