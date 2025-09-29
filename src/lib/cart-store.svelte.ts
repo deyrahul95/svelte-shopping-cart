@@ -52,6 +52,10 @@ export const removeItemFromCart = (itemId: string) => {
 	}
 };
 
+export const clearCart = () => {
+	cartStore.items = [];
+};
+
 export const increaseItemQuantity = (cartItem: ICartItem) => {
 	cartItem.quantity++;
 };

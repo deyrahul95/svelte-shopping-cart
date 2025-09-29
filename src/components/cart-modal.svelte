@@ -13,7 +13,7 @@
 				<h2 class="mb-2 text-xl font-semibold text-slate-800">My Cart</h2>
 				{#if getCartStats().quantity > 0}
 					<span
-						class="absolute left-21 top-2.5 inline-block rounded-full bg-blue-500 px-2.5 py-0.5 text-xs font-bold text-white"
+						class="absolute top-2 left-21 inline-block rounded-full bg-blue-500 px-2.5 py-0.5 text-xs font-bold text-white"
 						>{getCartStats().quantity}</span
 					>
 				{/if}
@@ -33,6 +33,7 @@
 						{/each}
 						<div class="mt-4 border-gray-200 pt-4">
 							<p class="text-lg font-semibold">Total: ${getCartStats().total.toFixed(2)}</p>
+                            <button>Clear</button>
 						</div>
 					{:else}
 						<div class="my-20 text-center">
