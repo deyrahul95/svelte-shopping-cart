@@ -18,8 +18,14 @@
 			class="flex items-center rounded-full bg-sky-600 px-4 py-2 text-white hover:bg-sky-700"
 			onclick={toggleCartModal}
 		>
+			{#if getCartStats().quantity > 0}
+				<span
+					class="absolute right-0.5 bottom-6 ml-1 inline-block rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-bold text-white"
+					>{getCartStats().quantity}</span
+				>
+			{/if}
 			<ShoppingCart class="mr-2 size-5" />
-			<span>Cart ({getCartStats().quantity})</span>
+			<span>Cart</span>
 		</button>
 		{#if isCartModalOpen()}
 			<CartModal />
