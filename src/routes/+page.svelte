@@ -1,62 +1,14 @@
 <script lang="ts">
-	import type { ICartItem, Product } from '$lib/types';
 	import ShoppingCart from 'phosphor-svelte/lib/ShoppingCart';
 	import CartModal from '../components/cart-modal.svelte';
-
-	type ICartStats = {
-		quantity: number;
-		total: number;
-	};
+	import {
+		addItemToCart,
+		isCartModalOpen,
+		getCartStats,
+		toggleCartModal
+	} from '$lib/cart-store.svelte';
 
 	const { data } = $props();
-	let cartOpen: boolean = $state<boolean>(false);
-	const cartItems: ICartItem[] = $state<ICartItem[]>([]);
-	const cartStats: ICartStats = $derived.by(() => {
-		let total: number = 0;
-		let quantity: number = 0;
-
-		for (const item of cartItems) {
-			quantity += item.quantity;
-			total += item.product.price * item.quantity;
-		}
-
-		return {
-			total,
-			quantity
-		};
-	});
-
-	const addItemToCart = (product: Product) => {
-		cartItems.push({
-			id: crypto.randomUUID(),
-			product: product,
-			quantity: 1
-		});
-	};
-
-	const removeItemFromCart = (itemId: string) => {
-		const index = cartItems.findIndex((item) => item.id === itemId);
-
-		if (index !== -1) {
-			cartItems.splice(index, 1);
-		}
-	};
-
-	const increaseItemQuantity = (cartItem: ICartItem) => {
-		cartItem.quantity++;
-	};
-
-	const decreaseItemQuantity = (cartItem: ICartItem) => {
-		if (cartItem.quantity > 1) {
-			cartItem.quantity--;
-		} else {
-			removeItemFromCart(cartItem.id);
-		}
-	};
-
-	const closeCart = () => {
-		cartOpen = false;
-	};
 </script>
 
 <div class="flex items-center bg-gray-300 p-4">
@@ -64,20 +16,13 @@
 	<div class="relative ml-auto flex items-center">
 		<button
 			class="flex items-center rounded-full bg-sky-600 px-4 py-2 text-white hover:bg-sky-700"
-			onclick={() => (cartOpen = !cartOpen)}
+			onclick={toggleCartModal}
 		>
 			<ShoppingCart class="mr-2 size-5" />
-			<span>Cart ({cartStats.quantity})</span>
+			<span>Cart ({getCartStats().quantity})</span>
 		</button>
-		{#if cartOpen}
-			<CartModal
-				{cartItems}
-				{cartStats}
-				{closeCart}
-				{increaseItemQuantity}
-				{decreaseItemQuantity}
-				{removeItemFromCart}
-			/>
+		{#if isCartModalOpen()}
+			<CartModal />
 		{/if}
 	</div>
 </div>

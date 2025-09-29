@@ -1,4 +1,25 @@
-export type Product = {
+type Dimensions = {
+	width: number;
+	height: number;
+	depth: number;
+};
+
+type Review = {
+	rating: number;
+	comment: string;
+	date: string;
+	reviewerName: string;
+	reviewerEmail: string;
+};
+
+type Meta = {
+	createdAt: string;
+	updatedAt: string;
+	barcode: string;
+	qrCode: string;
+};
+
+export type IProduct = {
 	id: number;
 	title: string;
 	description: string;
@@ -25,27 +46,11 @@ export type Product = {
 
 export type ICartItem = {
 	id: string;
-	product: Product;
+	product: IProduct;
 	quantity: number;
 };
 
-export type Dimensions = {
-	width: number;
-	height: number;
-	depth: number;
-};
-
-export type Review = {
-	rating: number;
-	comment: string;
-	date: string;
-	reviewerName: string;
-	reviewerEmail: string;
-};
-
-export type Meta = {
-	createdAt: string;
-	updatedAt: string;
-	barcode: string;
-	qrCode: string;
+export type ICartStats = {
+	quantity: number;
+	total: number;
 };

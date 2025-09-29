@@ -1,4 +1,9 @@
 <script lang="ts">
+	import {
+		decreaseItemQuantity,
+		increaseItemQuantity,
+		removeItemFromCart
+	} from '$lib/cart-store.svelte';
 	import type { ICartItem } from '$lib/types';
 	import Minus from 'phosphor-svelte/lib/Minus';
 	import Plus from 'phosphor-svelte/lib/Plus';
@@ -6,13 +11,9 @@
 
 	type IProps = {
 		cartItem: ICartItem;
-		removeItemFromCart: (itemId: string) => void;
-		increaseItemQuantity: (cartItem: ICartItem) => void;
-		decreaseItemQuantity: (cartItem: ICartItem) => void;
 	};
 
-	const { cartItem, removeItemFromCart, increaseItemQuantity, decreaseItemQuantity }: IProps =
-		$props();
+	const { cartItem }: IProps = $props();
 </script>
 
 <div class="flex items-center justify-between border-b border-gray-300 py-2">
