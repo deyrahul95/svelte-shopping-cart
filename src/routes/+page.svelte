@@ -4,12 +4,29 @@
 	import ShoppingCart from 'phosphor-svelte/lib/ShoppingCart';
 	import X from 'phosphor-svelte/lib/X';
 
-	let { data } = $props();
+	type ICartStats = {
+		quantity: number;
+		total: number;
+	};
+
+	const { data } = $props();
 	let cartOpen: boolean = $state<boolean>(false);
-	let cartItems: ICartItem[] = $state<ICartItem[]>([]);
-	const cartTotal: number = $derived(
-		cartItems.reduce((total, item) => (total += item.product.price * item.quantity), 0)
-	);
+	const cartItems: ICartItem[] = $state<ICartItem[]>([]);
+
+	const cartStats: ICartStats = $derived.by(() => {
+		let total: number = 0;
+		let quantity: number = 0;
+
+		for (const item of cartItems) {
+			quantity += item.quantity;
+			total += item.product.price * item.quantity;
+		}
+
+		return {
+			total,
+			quantity
+		};
+	});
 
 	const addItemToCart = (product: Product) => {
 		cartItems.push({
@@ -48,7 +65,7 @@
 			onclick={() => (cartOpen = !cartOpen)}
 		>
 			<ShoppingCart class="mr-2 size-5" />
-			<span>Cart ({cartItems.length})</span>
+			<span>Cart ({cartStats.quantity})</span>
 		</button>
 		{#if cartOpen}
 			<div class="absolute top-8 right-0 z-10 mt-2 w-80 rounded-lg bg-white shadow-xl">
@@ -70,7 +87,7 @@
 						/>
 					{/each}
 					<div class="mt-4 border-gray-200 pt-4">
-						<p class="text-lg font-semibold">Total: ${cartTotal.toFixed(2)}</p>
+						<p class="text-lg font-semibold">Total: ${cartStats.total.toFixed(2)}</p>
 					</div>
 				</div>
 			</div>
