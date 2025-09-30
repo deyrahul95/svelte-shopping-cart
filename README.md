@@ -2,19 +2,18 @@
 
 Implementation of a shopping cart feature for an e-commerce like platform using Svelte 5 and SvelteKit.
 
-
 ## Feature Description
 
- - Manage cart state globally using Svelte 5 shared state
- - Display cart item count in the navbar
- - Add and remove items from the cart
- - Increment and decrement cart item quantities
- - Manage modal open/close state
+- Manage cart state globally using Svelte 5 shared state
+- Display cart item count in the navbar
+- Add and remove items from the cart
+- Increment and decrement cart item quantities
+- Manage modal open/close state
 
 ## Pre Requirement
 
- - [NodeJS](https://nodejs.org/en)
- - [Bun](https://bun.sh/)
+- [NodeJS](https://nodejs.org/en)
+- [Bun](https://bun.sh/)
 
 ## Local Development Setup
 
@@ -39,15 +38,15 @@ bun run dev
 
 ## Technology Used
 
- - Node.js — runtime environment
- - Bun — package manager / runtime
- - TypeScript — type safety
- - Tailwind CSS — styling
- - Svelte 5 — UI framework
- - SvelteKit — application framework
- - Prettier — code formatting
- - ESLint — linting
+- Node.js — runtime environment
+- Bun — package manager / runtime
+- TypeScript — type safety
+- Tailwind CSS — styling
+- Svelte 5 — UI framework
+- SvelteKit — application framework
+- Prettier — code formatting
+- ESLint — linting
 
 ## References
 
- - [Practical Svelte 5 - Shopping Cart](https://www.youtube.com/watch?v=geAcAzheu_Y)
+- [Practical Svelte 5 - Shopping Cart](https://www.youtube.com/watch?v=geAcAzheu_Y)

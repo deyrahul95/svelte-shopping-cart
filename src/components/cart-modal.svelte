@@ -1,7 +1,7 @@
 <script lang="ts">
 	import X from 'phosphor-svelte/lib/X';
 	import CartItem from './cart-item.svelte';
-	import { getCartStats, closeCartModal, getCartItems } from '$lib/cart-store.svelte';
+	import { getCartStats, closeCartModal, getCartItems, clearCart } from '$lib/cart-store.svelte';
 
 	const cartItems = getCartItems();
 </script>
@@ -31,9 +31,15 @@
 						{#each cartItems as cartItem (cartItem.id)}
 							<CartItem {cartItem} />
 						{/each}
-						<div class="mt-4 border-gray-200 pt-4">
-							<p class="text-lg font-semibold">Total: ${getCartStats().total.toFixed(2)}</p>
-                            <button>Clear</button>
+						<div class="mt-4 flex items-center justify-between border-gray-200 pt-4">
+							<p class="inline-block text-lg font-semibold">
+								Total: ${getCartStats().total.toFixed(2)}
+							</p>
+							<button
+								class="cursor-pointer rounded-full border border-red-400 px-4 py-1 text-red-700 hover:bg-red-100"
+								aria-label="clear cart"
+								onclick={clearCart}>Clear</button
+							>
 						</div>
 					{:else}
 						<div class="my-20 text-center">

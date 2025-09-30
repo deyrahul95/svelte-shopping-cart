@@ -53,7 +53,7 @@ export const removeItemFromCart = (itemId: string) => {
 };
 
 export const clearCart = () => {
-	cartStore.items = [];
+	cartStore.items.splice(0);
 };
 
 export const increaseItemQuantity = (cartItem: ICartItem) => {
