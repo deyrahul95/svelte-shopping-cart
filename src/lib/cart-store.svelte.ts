@@ -37,11 +37,17 @@ export const getCartItems = (): ICartItem[] => {
 };
 
 export const addItemToCart = (product: IProduct) => {
-	cartStore.items.push({
-		id: crypto.randomUUID(),
-		product: product,
-		quantity: 1
-	});
+	const existingItem = cartStore.items.find((item) => item.product.id === product.id);
+
+	if (!existingItem) {
+		cartStore.items.push({
+			id: crypto.randomUUID(),
+			product: product,
+			quantity: 1
+		});
+	} else {
+		increaseItemQuantity(existingItem);
+	}
 };
 
 export const removeItemFromCart = (itemId: string) => {
