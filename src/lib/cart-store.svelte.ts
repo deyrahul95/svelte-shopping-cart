@@ -5,7 +5,9 @@ type ICartStore = {
 	modalOpen: boolean;
 };
 
-const cartStore: ICartStore = $state<ICartStore>({ items: [], modalOpen: false });
+const initialState: ICartStore = { items: [], modalOpen: false };
+
+const cartStore: ICartStore = $state<ICartStore>(initialState);
 
 const cartStats: ICartStats = $derived.by(() => {
 	let total: number = 0;
@@ -23,6 +25,12 @@ const cartStats: ICartStats = $derived.by(() => {
 });
 
 const cartModalOpen = $derived(cartStore.modalOpen);
+
+export const updateCartState = (raw: string) => {
+	const updateState = JSON.parse(raw) as ICartStore;
+	cartStore.items = updateState.items;
+	cartStore.modalOpen = updateState.modalOpen;
+};
 
 export const getCartStats = (): ICartStats => {
 	return cartStats;
