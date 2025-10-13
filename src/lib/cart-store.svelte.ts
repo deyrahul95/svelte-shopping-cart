@@ -44,6 +44,12 @@ export const getCartItems = (): ICartItem[] => {
 	return cartStore.items;
 };
 
+export const getCartItem = (productId: number): ICartItem | null => {
+	const existingItem = cartStore.items.find((item) => item.product.id === productId);
+
+	return existingItem ? existingItem : null;
+};
+
 export const addItemToCart = (product: IProduct) => {
 	const existingItem = cartStore.items.find((item) => item.product.id === product.id);
 
@@ -80,6 +86,36 @@ export const decreaseItemQuantity = (cartItem: ICartItem) => {
 	} else {
 		removeItemFromCart(cartItem.id);
 	}
+};
+
+export const increaseProductQuantity = (productId: number) => {
+	const cartItem = getCartItem(productId);
+
+	if (!cartItem) {
+		return;
+	}
+
+	cartItem.quantity++;
+};
+
+export const decreaseProductQuantity = (productId: number) => {
+	const cartItem = getCartItem(productId);
+
+	if (!cartItem) {
+		return;
+	}
+
+	if (cartItem.quantity > 1) {
+		cartItem.quantity--;
+	} else {
+		removeItemFromCart(cartItem.id);
+	}
+};
+
+export const getCartItemQuantity = (productId: number): number => {
+	const existingItem = cartStore.items.find((item) => item.product.id === productId);
+
+	return existingItem ? existingItem.quantity : 0;
 };
 
 export const closeCartModal = () => {
